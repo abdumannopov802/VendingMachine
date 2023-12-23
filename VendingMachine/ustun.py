@@ -1,5 +1,5 @@
 from ichimlik import Ichimlik
-
+from card import Card
 class Ustun:
     def __init__(self, machine_id) -> None:
         self.machine_id = machine_id
@@ -26,3 +26,16 @@ class Ustun:
             return f"VendingMachine da --> {count} ta <{ichimlik_nomi}> mavjud"
         else:
             return f"""VendingMachine da "{ichimlik_nomi}" yo'q"""
+        
+    def sell(self, input_card_id, ichimlik_nomi):
+        for ustun_id in self.ustunlar:
+            for ichimlik in self.ustunlar[ustun_id]:
+                if ichimlik.ichimlik_nomi == ichimlik_nomi:
+                    if input_card_id in Card.cards:
+                        if input_card_id.credit >= ichimlik.ichimlik_narxi:
+                            del self.ustunlar[ustun_id][0]
+                            Card.cards[input_card_id] -= ichimlik.ichimlik_narxi
+                            return f"ichimlik {ustun_id}-ustundan harid qilindi"
+                        return -1.0
+                    return -1.0
+                return -1.0
